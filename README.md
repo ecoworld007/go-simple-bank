@@ -4,6 +4,7 @@ We are going to use
 - go lang as programming language
 - postgres as our datasource
 - docker as our container engine
+- golang sqlc package to generate the functions to interact with db models
 
 To generate the schema diagram I have use https://dbdiagram.io/
 
