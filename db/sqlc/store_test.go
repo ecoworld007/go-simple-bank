@@ -92,5 +92,5 @@ func TestTransferTx(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, updatedAccount2)
 	require.Equal(t, account2.Balance+int64(n)*amount, updatedAccount2.Balance)
-	fmt.Println("after:::::::::", account1.Balance, account2.Balance)
+	fmt.Println("after:::::::::", updatedAccount1.Balance, updatedAccount2.Balance)
 }
