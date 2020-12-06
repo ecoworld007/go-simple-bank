@@ -7,7 +7,7 @@ import (
 	"context"
 )
 
-const createTranfer = `-- name: CreateTranfer :one
+const createTransfer = `-- name: CreateTransfer :one
 INSERT INTO transfers (
   amount,
   from_account_id,
@@ -18,14 +18,14 @@ VALUES (
 ) RETURNING id, from_account_id, to_account_id, amount, created_at
 `
 
-type CreateTranferParams struct {
+type CreateTransferParams struct {
 	Amount        int64 `json:"amount"`
 	FromAccountID int64 `json:"from_account_id"`
 	ToAccountID   int64 `json:"to_account_id"`
 }
 
-func (q *Queries) CreateTranfer(ctx context.Context, arg CreateTranferParams) (Transfer, error) {
-	row := q.db.QueryRowContext(ctx, createTranfer, arg.Amount, arg.FromAccountID, arg.ToAccountID)
+func (q *Queries) CreateTransfer(ctx context.Context, arg CreateTransferParams) (Transfer, error) {
+	row := q.db.QueryRowContext(ctx, createTransfer, arg.Amount, arg.FromAccountID, arg.ToAccountID)
 	var i Transfer
 	err := row.Scan(
 		&i.ID,
@@ -47,13 +47,13 @@ func (q *Queries) DeleteTranfer(ctx context.Context, id int64) error {
 	return err
 }
 
-const getTranfer = `-- name: GetTranfer :one
+const getTransfer = `-- name: GetTransfer :one
 SELECT id, from_account_id, to_account_id, amount, created_at FROM transfers 
 where id = $1 LIMIT 1
 `
 
-func (q *Queries) GetTranfer(ctx context.Context, id int64) (Transfer, error) {
-	row := q.db.QueryRowContext(ctx, getTranfer, id)
+func (q *Queries) GetTransfer(ctx context.Context, id int64) (Transfer, error) {
+	row := q.db.QueryRowContext(ctx, getTransfer, id)
 	var i Transfer
 	err := row.Scan(
 		&i.ID,
@@ -115,20 +115,20 @@ func (q *Queries) ListTransfers(ctx context.Context, arg ListTransfersParams) ([
 	return items, nil
 }
 
-const updateTranfer = `-- name: UpdateTranfer :one
+const updateTransfer = `-- name: UpdateTransfer :one
 UPDATE transfers 
 SET amount = $2
 WHERE id = $1
 RETURNING id, from_account_id, to_account_id, amount, created_at
 `
 
-type UpdateTranferParams struct {
+type UpdateTransferParams struct {
 	ID     int64 `json:"id"`
 	Amount int64 `json:"amount"`
 }
 
-func (q *Queries) UpdateTranfer(ctx context.Context, arg UpdateTranferParams) (Transfer, error) {
-	row := q.db.QueryRowContext(ctx, updateTranfer, arg.ID, arg.Amount)
+func (q *Queries) UpdateTransfer(ctx context.Context, arg UpdateTransferParams) (Transfer, error) {
+	row := q.db.QueryRowContext(ctx, updateTransfer, arg.ID, arg.Amount)
 	var i Transfer
 	err := row.Scan(
 		&i.ID,
