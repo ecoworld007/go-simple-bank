@@ -14,6 +14,8 @@ where id = $1 LIMIT 1;
 
 -- name: ListTransfers :many
 SELECT * FROM transfers
+WHERE from_account_id = $3
+AND to_account_id = $4
 ORDER BY id
 LIMIT $1
 OFFSET $2;
